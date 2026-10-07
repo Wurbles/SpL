@@ -1,0 +1,63 @@
+﻿- type: decal
+  id: darkdiagonalwood1
+  tags: ["station", "markings", "shadekin"]
+  defaultCustomColor: false
+  sprite:
+    sprite: _KB/Decals/dark_wood_diagonal.rsi
+    state: diagonal_wood_1
+
+- type: decal
+  id: darkdiagonalwood2
+  tags: ["station", "markings", "shadekin"]
+  defaultCustomColor: false
+  sprite:
+    sprite: _KB/Decals/dark_wood_diagonal.rsi
+    state: diagonal_wood_2
+
+- type: decal
+  id: darkdiagonalwood3
+  tags: ["station", "markings", "shadekin"]
+  defaultCustomColor: false
+  sprite:
+    sprite: _KB/Decals/dark_wood_diagonal.rsi
+    state: diagonal_wood_3
+
+- type: decal
+  id: darkdiagonalwood4
+  tags: ["station", "markings", "shadekin"]
+  defaultCustomColor: false
+  sprite:
+    sprite: _KB/Decals/dark_wood_diagonal.rsi
+    state: diagonal_wood_4
+
+- type: decal
+  id: darkdiagonalcornerwood1
+  tags: ["station", "markings", "shadekin"]
+  defaultCustomColor: false
+  sprite:
+    sprite: _KB/Decals/dark_wood_diagonal.rsi
+    state: diagonal_wood_corner_1
+
+- type: decal
+  id: darkdiagonalcornerwood2
+  tags: ["station", "markings", "shadekin"]
+  defaultCustomColor: false
+  sprite:
+    sprite: _KB/Decals/dark_wood_diagonal.rsi
+    state: diagonal_wood_corner_2
+
+- type: decal
+  id: darkdiagonalcornerwood3
+  tags: ["station", "markings", "shadekin"]
+  defaultCustomColor: false
+  sprite:
+    sprite: _KB/Decals/dark_wood_diagonal.rsi
+    state: diagonal_wood_corner_3
+
+- type: decal
+  id: darkdiagonalcornerwood4
+  tags: ["station", "markings", "shadekin"]
+  defaultCustomColor: false
+  sprite:
+    sprite: _KB/Decals/dark_wood_diagonal.rsi
+    state: diagonal_wood_corner_4

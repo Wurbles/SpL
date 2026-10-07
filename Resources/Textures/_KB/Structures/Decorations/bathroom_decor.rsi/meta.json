@@ -1,0 +1,36 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "State based copyright",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "handdryeraligned",
+            "directions": 4,
+			"copyright": "taken from https://github.com/SPLURT-Station/S.P.L.U.R.T-tg"
+        },
+        {
+            "name": "toiletrollaligned",
+            "directions": 4,
+			"copyright": "created for Triad by Kepteyn"
+        },
+        {
+            "name": "toiletrolloffsetaligned",
+            "directions": 4,
+			"copyright": "created for Triad by Kepteyn"
+        },
+        {
+            "name": "handsanitiseraligned",
+            "directions": 4,
+			"copyright": "created for Triad by Kepteyn"
+        },
+        {
+            "name": "showerhead",
+            "directions": 4,
+			"copyright": "created for the Kin Bin by Chrysopoeia (141567442513166336)"
+        }
+    ]
+}

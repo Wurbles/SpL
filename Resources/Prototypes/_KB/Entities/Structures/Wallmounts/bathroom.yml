@@ -1,0 +1,51 @@
+- type: entity
+  parent: BaseWallmountMetallic
+  id: HandDryerAligned
+  name: hand dryer
+  description: A hand dryer, for when youre too good for paper towels.
+  suffix: Aligned
+  components:
+  - type: Sprite
+    sprite: _KB/Structures/Decorations/bathroom_decor.rsi
+    state: handdryeraligned
+
+- type: entity
+  parent: ToiletPaper
+  id: ToiletPaperAligned
+  description: Two-ply. Luxurious!
+  suffix: Aligned
+  components:
+  - type: Sprite
+    sprite: _KB/Structures/Decorations/bathroom_decor.rsi
+    state: toiletrollaligned
+
+- type: entity
+  parent: ToiletPaper
+  id: ToiletPaperOffsetAligned
+  suffix: Aligned, Offset
+  components:
+  - type: Sprite
+    sprite: _KB/Structures/Decorations/bathroom_decor.rsi
+    state: toiletrolloffsetaligned
+
+- type: entity
+  parent: BaseWallmountMetallic
+  id: HandSanitiserAligned
+  name: hand sanitiser dispenser
+  description: Don't get any in your eyes.
+  suffix: Aligned
+  components:
+  - type: Sprite
+    sprite: _KB/Structures/Decorations/bathroom_decor.rsi
+    state: handsanitiseraligned
+  - type: WashingFixture
+
+- type: entity
+  parent: BaseWallmountMetallic
+  id: ShowerHead
+  name: shower head
+  description: A shower head, but it's a work in progress!
+  components:
+  - type: Sprite
+    sprite: _KB/Structures/Decorations/bathroom_decor.rsi
+    state: showerhead

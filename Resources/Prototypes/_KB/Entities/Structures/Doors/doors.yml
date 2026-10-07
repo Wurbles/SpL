@@ -1,0 +1,76 @@
+- type: entity
+  parent: PaperDoor
+  id: ShadekinPaperDoor
+  name: dark wood paper door
+  components:
+  - type: Sprite
+    sprite: _KB/Structures/Doors/dark_paper_door.rsi
+  - type: IconSmooth
+    key: woods
+    mode: NoSprite
+
+- type: entity
+  parent: PaperDoor
+  id: ShadekinTableDoor
+  name: shadekin counter flip-up door
+  components:
+  - type: Sprite
+    sprite: _KB/Structures/Doors/kin_table_door.rsi  
+    drawDepth: Objects
+  - type: IconSmooth
+    key: counterkin
+    mode: NoSprite
+  - type: Climbable
+  - type: MixedFixtures
+  - type: SpriteFade
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.45,-0.45,0.45,0.45"
+        density: 55
+        mask:
+        - TableMask
+        layer:
+        - TableLayer
+  - type: Door
+    openDrawDepth: Objects
+    closedDrawDepth: Objects
+    canPry: false
+    occludes: false
+    changeAirtight: false
+    bumpOpen: false
+    clickOpen: true
+    canCrush: false
+    closeTimeOne: 0
+    closeTimeTwo: 0
+    openTimeOne: 0
+    openTimeTwo: 0
+    openingAnimationTime: 0
+    closingAnimationTime: 0
+    openSound:
+      path: /Audio/Effects/door_open.ogg
+    closeSound:
+      path: /Audio/Effects/door_close.ogg
+  - type: Occluder
+    enabled: false
+  - type: Airtight
+    airBlocked: false
+
+- type: entity
+  id: ShadekinCounter
+  parent: CounterBase
+  name: shadekin countertop
+  description: Literally the sturdiest thing you have ever seen.
+  components:
+  - type: Sprite
+    sprite: _KB/Structures/Tables/kin_table_glass.rsi
+  - type: Icon
+    sprite: _KB/Structures/Tables/kin_table_glass.rsi
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepFloor
+  - type: IconSmooth
+    key: counterkin
+    base: state_

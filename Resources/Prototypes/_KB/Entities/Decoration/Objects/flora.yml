@@ -1,0 +1,8 @@
+- type: entity
+  parent: FloraTreeLarge
+  id: ShadowTreeLarge
+  name: large dark wood
+  description: The leaves are whispering about you.
+  components:
+  - type: Sprite
+    sprite: _KB/Objects/Decoration/Flora/big_shadow_trees.rsi
