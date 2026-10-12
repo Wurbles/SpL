@@ -1,4 +1,30 @@
 - type: loadoutGroup
+  id: Residential
+  name: loadout-group-scarves
+  minLimit: 0
+  loadouts:
+  - ScarfRed
+  - ScarfBlue
+  - ScarfGreen
+  - ScarfBlack
+  - ScarfBrown
+  - ScarfLightBlue
+  - ScarfOrange
+  - ScarfPurple
+  - ScarfPrideAce
+  - ScarfPrideAro
+  - ScarfPrideAroace
+  - ScarfPrideBisexual
+  - ScarfPrideGay
+  - ScarfPrideIntersex
+  - ScarfPrideLesbian
+  - ScarfPridePansexual
+  - ScarfPrideNonbinary
+  - ScarfPrideRainbow
+  - ScarfPrideTrans
+  - ScarfPrideLongBacon
+
+- type: loadoutGroup
   id: Insuls
   name: loadout-group-insuls-normal
   minLimit: 0

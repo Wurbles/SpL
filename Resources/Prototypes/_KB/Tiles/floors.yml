@@ -190,3 +190,21 @@
     collection: FootstepGrass
   weather: false
   heatCapacity: 10000
+
+- type: tile
+  id: FloorShadekinCarpet
+  name: tiles-shadekin-carpet-large
+  sprite: /Textures/_KB/Tiles/ShadekinCarpet/carpet.png
+  variants: 4
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  baseTurf: Plating
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepWood
+  barestepSounds:
+    collection: BarestepWood
+  heatCapacity: 10000

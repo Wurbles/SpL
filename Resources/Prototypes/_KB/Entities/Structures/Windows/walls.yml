@@ -1,0 +1,27 @@
+- type: entity
+  parent: Window
+  id: WindowShadekin
+  name: shadekin window
+  components:
+  - type: Sprite
+    drawdepth: WallTops
+    sprite: _KB/Structures/Windows/shadekin.rsi
+  - type: IconSmooth
+    key: woods
+    base: shadekin
+  - type: SignalTimer
+    label: hello
+
+- type: entity
+  parent: WindowDiagonal
+  id: WindowShadekinDiagonal
+  name: shadekin window
+  suffix: (diagonal)
+  components:
+  - type: Sprite
+    drawdepth: WallTops
+    sprite: _KB/Structures/Windows/shadekin_diagonal.rsi
+    state: state0
+  - type: IconSmooth
+    key: woods
+    mode: NoSprite

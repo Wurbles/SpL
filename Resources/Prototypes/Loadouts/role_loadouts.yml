@@ -75,6 +75,11 @@
   - GroupSpeciesBreathTool
 
 - type: roleLoadout
+  id: JobResident
+  groups:
+  - Scarves # Starlight
+
+- type: roleLoadout
   id: JobBartender
   groups:
   - GroupTankHarness

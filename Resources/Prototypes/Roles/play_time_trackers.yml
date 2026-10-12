@@ -8,6 +8,9 @@
   id: JobAssistant
 
 - type: playTimeTracker
+  id: JobResident
+
+- type: playTimeTracker
   id: JobAtmosphericTechnician
 
 - type: playTimeTracker

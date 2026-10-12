@@ -1,0 +1,19 @@
+- type: job
+  id: Resident
+  name: Resident
+  description: You live here!
+  playTimeTracker: JobResident
+  canBeAntag: false
+  icon: JobIconVisitor
+  setPreference: true
+  overrideConsoleVisibility: true
+  access:
+  - Maintenance
+  extendedAccess:
+  - External
+  startingGear: ResidentGear
+
+- type: startingGear
+  id: ResidentGear
+  equipment:
+    shoes: ClothingShoesColorBlack #Todo: add clothes etc

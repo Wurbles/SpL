@@ -37,6 +37,7 @@
   - Boxer
   - Zookeeper
   # Starlight end
+  - Resident
 
 - type: department
   id: CentralCommand
