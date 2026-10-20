@@ -36,7 +36,7 @@ public sealed class TitleWindowManager
 
         _clyde.SetWindowTitle(
             _cfg.GetCVar(CCVars.GameHostnameInTitlebar)
-                ? _cfg.GetCVar(CVars.GameHostName) + " - " + defaultWindowTitle
+                ? _cfg.GetCVar(CVars.GameHostName) + " " + defaultWindowTitle
                 : defaultWindowTitle);
     }
     // You thought I would remove the :3 from this code? You were wrong.

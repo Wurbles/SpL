@@ -6,3 +6,38 @@
   components:
   - type: Sprite
     sprite: _KB/Objects/Decoration/Flora/big_shadow_trees.rsi
+
+- type: entity
+  id: ShadekinPlantFruit
+  name: shadefruit plant
+  description: A direction sign, pointing out which way evac is.
+  components:
+  - type: Sprite
+    sprite: _KB/Structures/Decorations/plants_decor.rsi
+    drawdepth: Overdoors
+    noRot: true
+    layers:
+    - state: plant-0
+    - state: plant-0_glow
+      shader: unshaded
+    - state: plant-0_glow
+      shader: shaded
+    - state: plant-0_noshade
+      shader: unshaded
+  - type: SpriteFade
+  - type: Transform
+    noRot: true
+  - type: InteractionOutline
+  - type: Pullable
+  - type: Physics
+    bodyType: Dynamic
+  - type: Clickable
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.1
+        density: 190
+        mask:
+        - HighImpassable
