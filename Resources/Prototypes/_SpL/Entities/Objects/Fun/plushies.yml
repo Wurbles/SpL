@@ -540,6 +540,60 @@
         - Sign
 
 - type: entity
+  parent: BaseShadekinPlushie
+  id: PlushieLibrarian
+  name: librarian plushie
+  description: A plushie of a well-adored Shadekin. The glasses are sewn into place with light blue stitching.
+  components:
+    - type: Item
+      size: Small
+      sprite: _SpL/Objects/Fun/Plushies/librarian_plushie.rsi
+    - type: Sprite
+      sprite: _SpL/Objects/Fun/Plushies/librarian_plushie.rsi
+      state: icon
+    - type: EmitSoundOnUse
+      sound:
+        path: /Audio/_Starlight/Voice/Shadekin/wurble.ogg
+    - type: EmitSoundOnLand
+      sound:
+        path: /Audio/_Starlight/Voice/Shadekin/wurble.ogg
+    - type: EmitSoundOnActivate
+      sound:
+        path: /Audio/_Starlight/Voice/Shadekin/wurble.ogg
+    - type: EmitSoundOnTrigger
+      sound:
+        path: /Audio/_Starlight/Voice/Shadekin/wurble.ogg
+    - type: UseDelay
+      delay: 1
+    - type: MeleeWeapon
+      wideAnimationRotation: 180
+      soundHit:
+        path: /Audio/_Starlight/Voice/Shadekin/mar.ogg
+      damage:
+        types:
+          Blunt: 0
+      hidden: true  
+    - type: Edible
+      requiresSpecialDigestion: true
+      useSound: /Audio/_Starlight/Voice/Felionoid/cat_mew3.ogg
+      delay: 2
+    - type: SpamEmitSound
+      sound:
+        path: /Audio/_Starlight/Voice/Shadekin/wurble.ogg
+      minInterval: 180
+      maxInterval: 240
+    - type: LanguageSpeaker
+    - type: LanguageKnowledge
+      speaks:
+        - GalacticCommon
+        - Marish
+        - Sign
+      understands:
+        - GalacticCommon
+        - Marish
+        - Sign
+
+- type: entity
   parent: BaseFelionoidPlushie
   id: PlushieFurlow
   name: furlow plushie

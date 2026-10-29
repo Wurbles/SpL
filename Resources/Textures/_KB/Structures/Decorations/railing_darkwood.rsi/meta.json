@@ -1,0 +1,25 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Made by Chrysopoeia",
+    "size": {
+        "x": 64,
+        "y": 64
+    },
+    "states": [
+        {
+            "name": "railing_straight",
+            "directions": 4
+        },
+		
+        {
+            "name": "railing_diagonal",
+            "directions": 4
+        },
+		
+        {
+            "name": "railing_corner",
+            "directions": 4
+        }
+    ]
+}

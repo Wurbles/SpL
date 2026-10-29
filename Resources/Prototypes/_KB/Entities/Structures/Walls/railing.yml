@@ -1,0 +1,164 @@
+﻿- type: entity
+  parent: BaseRailingWood
+  id: RailingWoodDark
+  name: Shadekin Railing
+  suffix: Straight
+  components:
+    - type: Sprite
+      sprite: _KB/Structures/Decorations/railing_darkwood.rsi
+      state: railing_straight
+      drawdepth: Overdoors
+    - type: Icon
+      sprite: _KB/Structures/Decorations/railing_darkwood.rsi
+      state: railing_straight
+    - type: Fixtures
+      fixtures:
+        fix1:
+          shape:
+            !type:PhysShapeAabb
+            bounds: "-0.5,-0.390,0.5,-0.610"
+          density: 1000
+          mask:
+            - TableMask
+          layer:
+            - TableLayer
+    - type: Destructible
+      thresholds:
+        - trigger:
+            !type:DamageTrigger
+            damage: 60
+          behaviors:
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
+        - trigger:
+            !type:DamageTrigger
+            damage: 30
+          behaviors:
+            - !type:SpawnEntitiesBehavior
+              spawn:
+                MaterialWoodPlank1:
+                  min: 0
+                  max: 1
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
+    - type: Climbable
+    - type: Construction
+      node: railingWood
+
+- type: entity
+  parent: BaseRailingWood
+  id: RailingWoodDarkCorner
+  name: Shadekin Railing
+  suffix: Corner
+  components:
+    - type: Sprite
+      sprite: _KB/Structures/Decorations/railing_darkwood.rsi
+      state: railing_corner
+      drawdepth: Overdoors
+    - type: Icon
+      sprite: _KB/Structures/Decorations/railing_darkwood.rsi
+      state: railing_corner
+    - type: Fixtures
+      fixtures:
+        fix1:
+          shape:
+            !type:PhysShapeAabb
+            bounds: "-0.5,-0.390,0.390,-0.610"
+          density: 1000
+          mask:
+            - TableMask
+          layer:
+            - TableLayer
+        fix2:
+          shape:
+            !type:PhysShapeAabb
+            bounds: "0.390,0.5,0.610,-0.610"
+          density: 1000
+          mask:
+            - TableMask
+          layer:
+            - TableLayer
+    - type: Destructible
+      thresholds:
+        - trigger:
+            !type:DamageTrigger
+            damage: 60
+          behaviors:
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
+        - trigger:
+            !type:DamageTrigger
+            damage: 30
+          behaviors:
+            - !type:SpawnEntitiesBehavior
+              spawn:
+                MaterialWoodPlank1:
+                  min: 0
+                  max: 1
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
+    - type: Climbable
+    - type: Construction
+      node: railingCornerWood
+
+- type: entity
+  parent: BaseRailingWood
+  id: RailingWoodDarkDiagonal
+  name: Shadekin Railing
+  suffix: Diagonal
+  components:
+    - type: Sprite
+      sprite: _KB/Structures/Decorations/railing_darkwood.rsi
+      state: railing_diagonal
+      drawdepth: Overdoors
+    - type: Icon
+      sprite: _KB/Structures/Decorations/railing_darkwood.rsi
+      state: railing_diagonal
+    - type: Fixtures
+      fixtures:
+        fix1:
+          shape:
+            !type:PolygonShape
+              vertices:
+              - "-0.6,-0.4"
+              - "0.4,0.6"
+              - "-0.4,-0.6"
+          density: 1000
+          mask:
+            - TableMask
+          layer:
+            - TableLayer
+        fix2:
+          shape:
+            !type:PolygonShape
+              vertices:
+              - "0.4,0.6"
+              - "0.6,0.4"
+              - "-0.4,-0.6"
+          density: 1000
+          mask:
+            - TableMask
+          layer:
+            - TableLayer
+    - type: Destructible
+      thresholds:
+        - trigger:
+            !type:DamageTrigger
+            damage: 60
+          behaviors:
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
+        - trigger:
+            !type:DamageTrigger
+            damage: 30
+          behaviors:
+            - !type:SpawnEntitiesBehavior
+              spawn:
+                MaterialWoodPlank1:
+                  min: 0
+                  max: 1
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
+    - type: Climbable
+    - type: Construction
+      node: railingCornerWood

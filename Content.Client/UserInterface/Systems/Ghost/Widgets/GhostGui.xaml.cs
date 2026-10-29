@@ -28,7 +28,6 @@ public sealed partial class GhostGui : UIWidget
 
         MouseFilter = MouseFilterMode.Ignore;
 
-        GhostWarpButton.OnPressed += _ => RequestWarpsPressed?.Invoke();
         ReturnToBodyButton.OnPressed += _ => ReturnToBodyPressed?.Invoke();
         GhostRolesButton.OnPressed += _ => GhostRolesPressed?.Invoke();
         GhostRolesButton.OnPressed += _ => GhostRolesButton.StyleClasses.Remove(StyleClass.Negative);

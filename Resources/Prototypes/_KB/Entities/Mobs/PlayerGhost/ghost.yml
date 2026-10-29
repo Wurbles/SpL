@@ -1,0 +1,9 @@
+- type: ghostTheme
+  id: Shadekin
+  name: Kin
+  description: a fuzzy ghost.
+  spriteSpecifier:
+    sprite:
+      sprite: _KB/Ghost/kin.rsi
+      state: kin_body
+    color: "#ffffff"
