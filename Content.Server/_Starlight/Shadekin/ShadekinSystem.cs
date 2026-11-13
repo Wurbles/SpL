@@ -1,40 +1,43 @@
-using Content.Shared.Humanoid;
-using Content.Shared.Alert;
 using System.Linq;
-using Robust.Server.GameObjects;
-using Content.Shared.Examine;
-using Robust.Server.Containers;
-using Content.Shared._Starlight.Shadekin;
-using Content.Shared.Damage.Components;
-using Content.Shared.Mobs;
-using Content.Shared.Movement.Systems;
-using Content.Shared.Movement.Components;
-using Content.Shared.Eye.Blinding.Components;
-using Content.Shared.Damage;
-using Robust.Shared.Timing;
-using Content.Shared._Starlight.NullSpace;
-using Robust.Shared.Prototypes;
-using Content.Shared.Actions;
-using Content.Shared.Station;
-using Content.Shared.Popups;
-using Content.Shared.Body.Systems;
-using Content.Shared.Body.Events;
-using Content.Shared.Body.Components;
-using Content.Shared.Inventory;
-using Content.Shared.Tag;
-using Robust.Shared.Random;
-using Content.Server._Starlight.NullSpace;
 using Content.Server._Starlight.Bluespace;
-using Content.Server.Stunnable;
-using Content.Shared.Damage.Systems;
+using Content.Server._Starlight.NullSpace;
 using Content.Server.DoAfter;
-using Content.Shared.Ensnaring;
-using Robust.Shared.Audio.Systems;
-using Content.Shared.StatusEffectNew;
-using Content.Shared.Mobs.Components;
-using Robust.Shared.Map.Components;
 using Content.Server.GameTicking;
-
+using Content.Server.Stunnable;
+using Content.Shared._Starlight.NullSpace;
+using Content.Shared._Starlight.Shadekin;
+using Content.Shared.Actions;
+using Content.Shared.Alert;
+using Content.Shared.Body.Components;
+using Content.Shared.Body.Events;
+using Content.Shared.Body.Systems;
+using Content.Shared.Damage;
+using Content.Shared.Damage.Components;
+using Content.Shared.Damage.Systems;
+using Content.Shared.Ensnaring;
+using Content.Shared.Examine;
+using Content.Shared.Eye.Blinding.Components;
+using Content.Shared.Humanoid;
+using Content.Shared.Inventory;
+using Content.Shared.Mobs;
+using Content.Shared.Mobs.Components;
+using Content.Shared.Movement.Components;
+using Content.Shared.Movement.Systems;
+using Content.Shared.Popups;
+using Content.Shared.Station;
+using Content.Shared.StatusEffectNew;
+using Content.Shared.Tag;
+using JetBrains.Annotations;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using NetCord.Gateway;
+using Robust.Server.Containers;
+using Robust.Server.GameObjects;
+using Robust.Shared.Audio.Systems;
+using Robust.Shared.Map.Components;
+using Robust.Shared.Prototypes;
+using Robust.Shared.Random;
+using Robust.Shared.Timing;
+using static Content.Shared.Fax.AdminFaxEuiMsg;
 namespace Content.Server._Starlight.Shadekin;
 
 public sealed partial class ShadekinSystem : EntitySystem
@@ -62,6 +65,11 @@ public sealed partial class ShadekinSystem : EntitySystem
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly StatusEffectsSystem _status = default!;
     [Dependency] private readonly GameTicker _gameTicker = default!;
+    [Dependency] private readonly ILogManager _logManager = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+
+
+    private ISawmill _sawmill = default!;
 
     private static readonly ProtoId<TagPrototype> _theDarkTag = "TheDark";
     private static readonly ProtoId<TagPrototype> _coreTag = "ShadekinCore";
@@ -69,24 +77,14 @@ public sealed partial class ShadekinSystem : EntitySystem
     private TimeSpan _nextUpdate = TimeSpan.Zero;
     private TimeSpan _updateCooldown = TimeSpan.FromSeconds(1f);
 
+    private float _lightLevel = 0f;
+
     private sealed class LightCone
     {
         public float Direction { get; set; }
         public float InnerWidth { get; set; }
         public float OuterWidth { get; set; }
     }
-    private readonly Dictionary<string, List<LightCone>> lightMasks = new()
-    {
-        ["/Textures/Effects/LightMasks/cone.png"] = new List<LightCone>
-    {
-        new LightCone { Direction = 0, InnerWidth = 30, OuterWidth = 60 }
-    },
-        ["/Textures/Effects/LightMasks/double_cone.png"] = new List<LightCone>
-    {
-        new LightCone { Direction = 0, InnerWidth = 30, OuterWidth = 60 },
-        new LightCone { Direction = 180, InnerWidth = 30, OuterWidth = 60 }
-    }
-    };
 
     public override void Initialize()
     {
@@ -143,24 +141,24 @@ public sealed partial class ShadekinSystem : EntitySystem
         _alerts.ShowAlert(uid, component.ShadekinAlert, state);
     }
 
-    private Angle GetAngle(EntityUid lightUid, SharedPointLightComponent lightComp, EntityUid targetUid)
+    private double GetAngleDiff(EntityUid lightUid, SharedPointLightComponent lightComp, EntityUid targetUid)
     {
         var (lightPos, lightRot) = _transform.GetWorldPositionRotation(lightUid);
-        lightPos += lightRot.RotateVec(lightComp.Offset);
 
-        var (targetPos, targetRot) = _transform.GetWorldPositionRotation(targetUid);
+        lightPos += lightComp.Offset;
+
+        var targetPos = _transform.GetWorldPosition(targetUid);
 
         var mapDiff = targetPos - lightPos;
 
-        var oppositeMapDiff = (-lightRot).RotateVec(mapDiff);
-        var angle = oppositeMapDiff.ToWorldAngle();
+        var angleRaw = Math.Atan2(mapDiff.Y, mapDiff.X);
 
-        if (angle == double.NaN && _transform.ContainsEntity(targetUid, lightUid) || _transform.ContainsEntity(lightUid, targetUid))
-        {
-            angle = 0f;
-        }
+        // This is cursed because I guess stuff points 90 degrees off the actual cone, because of course. I'm probably getting it wrong or something
+        var angle = (((lightRot - angleRaw) * (180.0 / Math.PI)) - 90.0 + 360.0) % 360.0;
 
-        return angle;
+        var angleDiff = angle > 180f ? 360f - angle : angle;
+
+        return angleDiff;
     }
 
     /// <summary>
@@ -171,6 +169,7 @@ public sealed partial class ShadekinSystem : EntitySystem
     /// <returns></returns>
     public float GetLightExposure(EntityUid uid)
     {
+        _sawmill = _logManager.GetSawmill("Shadekin");
         var illumination = 0f;
 
         var shadeQuery = _lookup.GetEntitiesInRange<ShadegenComponent>(Transform(uid).Coordinates, 10); // Why 10 when theres different ranges? because light check does not go above 20.
@@ -208,31 +207,29 @@ public sealed partial class ShadekinSystem : EntitySystem
             var attenuation = 1 - (denom * denom);
             var calculatedLight = 0f;
 
-            // if (light.Comp.MaskPath is not null)
-            // {
-            //     var angleToTarget = GetAngle(light, light.Comp, uid);
-            //     foreach (var cone in lightMasks[light.Comp.MaskPath])
-            //     {
-            //         var coneLight = 0f;
-            //         var angleAttenuation = (float)Math.Min((float)Math.Max(cone.OuterWidth - angleToTarget, 0f), cone.InnerWidth) / cone.OuterWidth;
-            //
-            //         if (angleToTarget.Degrees - cone.Direction > cone.OuterWidth)
-            //             continue;
-            //         else if (angleToTarget.Degrees - cone.Direction > cone.InnerWidth
-            //             && angleToTarget.Degrees - cone.Direction < cone.OuterWidth)
-            //             coneLight = light.Comp.Energy * attenuation * attenuation * angleAttenuation;
-            //         else
-            //             coneLight = light.Comp.Energy * attenuation * attenuation;
-            //
-            //         calculatedLight = Math.Max(calculatedLight, coneLight);
-            //     }
-            // }
-            // else
-                calculatedLight = light.Comp.Energy * attenuation * attenuation;
+            if (light.Comp.LightMask is { } maskId && _prototypeManager.TryIndex(maskId, out var mask))
+            {
+                var diff = GetAngleDiff(light, light.Comp, uid);
+                foreach (var cone in mask.LightCones)
+                {
+                    if (diff > cone.OuterWidth.Degrees / 2)
+                        continue;
+                    var coneLight = light.Comp.Energy;
+                    if (diff > cone.InnerWidth.Degrees / 2)
+                    {
+                        double close = (cone.InnerWidth.Degrees / 2) - diff;
+                        double range = (cone.InnerWidth.Degrees - cone.OuterWidth.Degrees) / 2;
+                        coneLight *= 1 - (float)(close / range);
+                    }
+                    calculatedLight = Math.Max(calculatedLight, coneLight * attenuation);
+                }
+            }
+            else
+                calculatedLight = light.Comp.Energy * attenuation;
 
             illumination += calculatedLight; //Math.Max(illumination, calculatedLight);
         }
-
+        _lightLevel = illumination;
         return illumination;
     }
 
@@ -281,30 +278,17 @@ public sealed partial class ShadekinSystem : EntitySystem
 
     private void OnRefreshMovementSpeedModifiers(EntityUid uid, ShadekinComponent component, RefreshMovementSpeedModifiersEvent args)
     {
-        if (component.CurrentState == ShadekinState.High || component.CurrentState == ShadekinState.Extreme)
-        {
-            if (!TryComp<MovementSpeedModifierComponent>(uid, out var movement))
-                return;
-
-            var sprintDif = movement.BaseWalkSpeed / movement.BaseSprintSpeed;
-            args.ModifySpeed(1f, sprintDif);
-        }
-    }
-
-    private void ToggleNightVision(EntityUid uid, ShadekinState shadekinState)
-    {
-        var nightVision = EnsureComp<NightVisionComponent>(uid);
-        var shouldBeActive = shadekinState == ShadekinState.Dark;
-
-        // avoid dirtying if we don't need to
-        if(nightVision.Active == shouldBeActive)
+        if (_lightLevel == 0)
             return;
+        if (!TryComp<MovementSpeedModifierComponent>(uid, out var movement))
+            return;
+        float speedMod = 1;
+        if (_lightLevel > 3)
+            speedMod = 0.5f;
+        else
+            speedMod = 1 - (_lightLevel / 6);
 
-        // update whether or not nightVision should be active based on light level
-        nightVision.Active = shouldBeActive;
-
-        // ensure nightVision updates to reflect the new state
-        Dirty(uid, nightVision);
+        args.ModifySpeed(1f, speedMod);
     }
 
     private void CheckThresholds(EntityUid uid, ShadekinComponent component, float lightExposure)
@@ -380,8 +364,6 @@ public sealed partial class ShadekinSystem : EntitySystem
                 lightExposure = GetLightExposure(uid);
 
             CheckThresholds(uid, component, lightExposure);
-
-            ToggleNightVision(uid, component.CurrentState);
             SetPassiveBuff(uid, component.CurrentState);
             _speed.RefreshMovementSpeedModifiers(uid);
 

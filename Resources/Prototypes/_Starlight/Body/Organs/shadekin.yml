@@ -21,7 +21,7 @@
       - state: eyes
   - type: FunctionalOrgan
     comps:
-    - type: NightVision
+    - type: ShadekinVision
       disabilityBlockable: true
     - type: FlashModifier
       modifier: 2

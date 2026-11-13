@@ -10,6 +10,7 @@ using Robust.Shared.Prototypes;
 using Content.Shared.Inventory.Events;
 using Content.Shared.Starlight.Overlay;
 using Content.Shared._Starlight.Vision;
+using Content.Shared._Starlight.Shadekin;
 
 namespace Content.Client._Starlight.Overlay;
 
@@ -20,6 +21,7 @@ public sealed class NightVisionSystem : EntitySystem
     [Dependency] private readonly TransformSystem _xformSys = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly FlashImmunitySystem _flashImmunity = default!;
+    [Dependency] private readonly SharedPointLightSystem _pointLight = default!;
 
     private NightVisionOverlay _overlay = default!;
     [ViewVariables]
@@ -93,6 +95,7 @@ public sealed class NightVisionSystem : EntitySystem
     /// <summary>
     /// Attempt to add the nightvision overlay to the local player.
     /// </summary>
+    /// 
     /// <param name="uid">Entity to add nightvision to.</param>
     private void AttemptAddVision(EntityUid uid)
     {
@@ -113,12 +116,13 @@ public sealed class NightVisionSystem : EntitySystem
             return;
         
         // only add if effect isnt already used
-        if (_effect != null)
+        if (TryComp<PointLightComponent>(uid, out var comp))
             return;
 
         _overlayMan.AddOverlay(_overlay);
 
         _effect = SpawnAttachedTo(nightVision.EffectPrototype, Transform(uid).Coordinates);
+
         _xformSys.SetParent(_effect.Value, uid);
     }
 
@@ -133,7 +137,8 @@ public sealed class NightVisionSystem : EntitySystem
         if (_player.LocalSession?.AttachedEntity != uid && !force) return;
 
         _overlayMan.RemoveOverlay(_overlay);
-        Del(_effect);
+        RemComp<PointLightComponent>(uid);
+        RemComp<DarkLightComponent>(uid);
         _effect = null;
     }
 }
