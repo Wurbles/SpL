@@ -1,6 +1,6 @@
 hand-labeler-saved-labels = Saved Labels:
 
-hand-labeler-new-label-text = New
+hand-labeler-new-label-text = Save
 hand-labeler-sort-label-none = Oldest
 hand-labeler-sort-label-alphabetical = Alphabetical
 hand-labeler-sort-label-length = Length

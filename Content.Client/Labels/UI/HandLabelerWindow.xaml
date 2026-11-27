@@ -24,7 +24,7 @@
 			<Button
 				Name="NewLabelButton"
 				Text="{Loc 'hand-labeler-new-label-text'}"
-				SetWidth="60"
+				SetWidth="80"
 				StyleClasses="ButtonSquare"
 				TextAlign="Center"
 				HorizontalAlignment="Right"/>

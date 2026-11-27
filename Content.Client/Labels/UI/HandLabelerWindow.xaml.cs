@@ -5,6 +5,7 @@ using Content.Client._Starlight.UI;
 using Content.Client.Administration.UI.Notes;
 using Content.Client.Stylesheets;
 using Content.Client.UserInterface.Systems.Chat.Controls;
+using Content.Shared._Starlight.Utility;
 using Content.Shared.Chemistry;
 using Content.Shared.Mobs;
 using Content.Shared.Starlight.CCVar; // Starlight
@@ -15,6 +16,7 @@ using Robust.Client.UserInterface.Controls; // Starlight
 using Robust.Client.UserInterface.CustomControls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Configuration; // Starlight
+using Robust.Shared.Utility;
 
 namespace Content.Client.Labels.UI;
 
@@ -171,7 +173,10 @@ public sealed partial class HandLabelerWindow : DefaultWindow
     {
         if (!string.IsNullOrWhiteSpace(_label) && !_savedLabels[_currentTab].tab.Contains(_label))
         {
-            _savedLabels[_currentTab].tab.Add(_label);
+            var sanitized = FormattedMessage.FromMarkupPermissive(_label)
+                    .SanitizeWhitelist(FormattedMessageSanitizer.ItemLabelTags)
+                    .ToMarkup();
+            _savedLabels[_currentTab].tab.Add(sanitized);
             SaveCVar();
             ViewUpdate();
         }
@@ -273,6 +278,9 @@ public sealed partial class HandLabelerWindow : DefaultWindow
                 tabName = !string.IsNullOrWhiteSpace(tabSplit[0]) ? tabSplit[0] : $"Saved Tab #{i + 1}";
                 tabSplit.RemoveAt(0);
             }
+            tabSplit.ForEach(label => label = FormattedMessage.FromMarkupPermissive(label)
+                    .SanitizeWhitelist(FormattedMessageSanitizer.ItemLabelTags)
+                    .ToMarkup());
             _savedLabels.Add(new LabelTab(tabName, tabSplit));
         }
         TabUpdate();
