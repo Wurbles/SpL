@@ -102,12 +102,6 @@ public sealed partial class HandLabelerWindow : DefaultWindow
 
     public void SetMaxLabelLength(int maxLength) => LabelLineEdit.IsValid = s => s.Length <= maxLength;
 
-    public void TempMethondName()
-    {
-        LabelTabsListButton.SetItemText(_currentTab, _savedLabels[_currentTab].name);
-        SaveCVar();
-        ViewUpdate();
-    }
     public void SetCurrentLabel(string label)
     {
         _label = label;
