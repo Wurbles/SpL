@@ -2,21 +2,19 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
             Title="{Loc 'hand-labeler-ui-header'}"
-			<!-- Kin Bin Begin -->
             MinWidth="430"
 			MinHeight="323"
             SetWidth="430"
-            SetHeight="491"> <!-- Kin Bin - Adjusted height/width to accommodate additional UI elements -->
-			<!-- Kin Bin End -->
+            SetHeight="491"> <!-- Starlight - Adjusted height/width to accommodate additional UI elements -->
 	
     <BoxContainer Orientation="Vertical" SeparationOverride="4">
-		<!-- Kin Bin Begin -->
+		<!-- Starlight Begin -->
 		<PanelContainer HorizontalExpand="True" StyleClasses="BackgroundPanelDark">
 			<RichTextLabel Name="CurrentLabelPreview" HorizontalAlignment="Center" Margin="10"/>
 		</PanelContainer>
-		<!-- Kin Bin End -->
+		<!-- Starlight end -->
         <LineEdit Name="LabelLineEdit" />
-		<!-- Kin Bin Begin -->
+		<!-- Starlight Begin -->
 		<BoxContainer
 			Orientation="Horizontal"
 			HorizontalExpand="True">
@@ -83,6 +81,6 @@
 					SeparationOverride="1"/>
 			</ScrollContainer>
 		</PanelContainer>
-        <!-- Kin Bin End -->
+        <!-- Starlight end -->
 	</BoxContainer>
 </DefaultWindow>
